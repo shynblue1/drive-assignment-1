@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 type Props = {}
 
 export const useVehicleData = () => {
-    const [models, setModels] = useState([]);
+    const [models, setModels] = useState<any>([]);
     const [loading, setLoading] = useState(false);
     const [modelsError, setModelsError] = useState("");
 
@@ -30,7 +30,7 @@ export const useVehicleData = () => {
             setLoading(false);
         }
     };
-    
+
     return {
         models,
         loading,

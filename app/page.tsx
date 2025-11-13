@@ -11,7 +11,7 @@ import Loader from "./components/loader";
 export default function Home() {
   const [makesData, setMakesData] = useState<Array<object>>([]);
   const [selectedMake, setSelectedMake] = useState<string>("");
-  
+
 
   useEffect(() => {
     fetchData();
@@ -32,7 +32,7 @@ export default function Home() {
   const fetchModel = async () => {
     await fetchModels(selectedMake);
   }
-  
+
   return (
     <div className="flex min-h-screen items-center justify-center font-sans text-black bg-white">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center py-32 px-16 bg-white sm:items-start">
