@@ -23,15 +23,14 @@ export const useVehicleData = () => {
             const data = await res.json();
             setModels(data?.Results?.[0]);
         } catch (e) {
-
             setModels([]);
             setModelsError("Failed to fetch vehicle models.");
-            throw new Error(e)
+
         } finally {
             setLoading(false);
         }
     };
-    console.log(modelsError, "models error")
+    
     return {
         models,
         loading,
