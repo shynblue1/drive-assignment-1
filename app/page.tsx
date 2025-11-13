@@ -11,7 +11,7 @@ import Loader from "./components/loader";
 export default function Home() {
   const [makesData, setMakesData] = useState<Array<object>>([]);
   const [selectedMake, setSelectedMake] = useState<string>("");
-  const [fetchedModels, setFetchedModels] = useState<Array<object>>([]);
+  
 
   useEffect(() => {
     fetchData();
@@ -27,14 +27,12 @@ export default function Home() {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedMake = event.target.value;
     setSelectedMake(selectedMake);
-    // const temp = makesData.filter((make: any) => make.Make_Name === selectedMake)
-    // console.log("Selected make object:", temp);
   }
 
   const fetchModel = async () => {
     await fetchModels(selectedMake);
   }
-  // console.log(fetchedModels)
+  
   return (
     <div className="flex min-h-screen items-center justify-center font-sans text-black bg-white">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center py-32 px-16 bg-white sm:items-start">
