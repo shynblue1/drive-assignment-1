@@ -3,11 +3,15 @@ import React, { useState } from 'react'
 type Props = {}
 
 export const useVehicleData = () => {
-    const [models, setModels] = useState<any>([]);
+    const [models, setModels] = useState<any>({});
     const [loading, setLoading] = useState(false);
     const [modelsError, setModelsError] = useState("");
 
     const fetchModels = async (makeName: string) => {
+        if (!makeName || makeName.trim() === "") {
+            setModelsError("Make name is required to fetch models.");
+            return;
+        }
         setLoading(true);
         setModelsError("");
         setModels([]);
@@ -15,11 +19,9 @@ export const useVehicleData = () => {
         try {
             const res = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${makeName}?format=json`);
 
-            if (res.status == 404) {
+            if (res.status == 404 || res.status == 302) {
                 setModelsError("The resource you are looking for has been removed, had its name changed, or is temporarily unavailable.");
-                // return;
             }
-
             const data = await res.json();
             setModels(data?.Results?.[0]);
         } catch (e) {

@@ -1,28 +1,15 @@
 'use client';
-import Image from "next/image";
 import Button from "./components/button";
-import { useCallback, useEffect, useState } from "react";
-import fetchMakes from "./hooks/fetchMakes";
+import { useState } from "react";
+import { useCarMakeData } from "./hooks/fetchMakes";
 import Select from "./components/select";
-import fetchCarMakeData from "./hooks/fetchMakes";
 import { useVehicleData } from "./hooks/fetchModel";
 import Loader from "./components/loader";
 
 export default function Home() {
-  const [makesData, setMakesData] = useState<Array<object>>([]);
   const [selectedMake, setSelectedMake] = useState<string>("");
-
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  const { models, fetchModels, loading, error } = useVehicleData()
-
-  const fetchData = async () => {
-    const res = await fetchCarMakeData();
-    setMakesData(res);
-  }
+  const { makes, loading: makesLoading, error: makesError } = useCarMakeData();
+  const { models = {}, fetchModels, loading, error } = useVehicleData()
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedMake = event.target.value;
@@ -43,7 +30,7 @@ export default function Home() {
 
           <div className="w-full">
 
-            <Select options={makesData} onChange={handleSelectChange} value={selectedMake} />
+            <Select options={makes} onChange={handleSelectChange} value={selectedMake} loading={makesLoading} />
           </div>
           <div className="w-34 h-12 mt-10">
             <Button onClick={fetchModel} name="Fetch Model Data" />
@@ -56,16 +43,15 @@ export default function Home() {
             </>
           ) :
             (
-              models ? (
+              Object?.keys(models)?.length > 0 ? (
                 <ul>
                   <li>{models?.Model_Name}</li>
                   <li key={models?.Make_ID}> {models.Make_Name} {models.Model_ID}</li>
                 </ul>
               ) : (
-                <p className="text-gray-700">{error ? error :
+                <p className="text-gray-700">{error != null || error != "" ? error :
                   "No models fetched yet."}</p>
               ))
-
           }
         </section>
       </main>
