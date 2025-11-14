@@ -8,7 +8,7 @@ export const useCarMakeData = () => {
   useEffect(() => {
     fetchMakes();
   }, []);
-console.log(loading)
+
   const fetchMakes = async () => {
     setLoading(true);
     try {
